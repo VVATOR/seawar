@@ -9,21 +9,16 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
- 
-<link rel="stylesheet" type="text/css" href="static/styles/style.css" />
-<script src="static/field_random.js"> </script>
-
-
+<title>Game Dashboard</title>
+	<link rel="stylesheet" type="text/css" href="static/styles/style.css" />
+	<script src="static/field_random.js"> </script>
 </head>
 <body>
 	<m:menu-top/>
 
-	<h1>Dashboard</h1> 
-	
-	
-	${user.id}-**${current_user}**
-		<button type="button" onclick="showNewOffers();">Click Me!</button>
+	<h1>Dashboard</h1> 	
+
+	<button type="button" onclick="showNewOffers();">Click Me!</button>
 
 	<div class="panel">
 		<div id="list-players">
@@ -59,12 +54,11 @@
 				<div class="panel-header">Battle offers list:</div>
 				<c:forEach items="${listBattleOffirs}" var="offer">
 					<div class="player-item">${offer.id} 
-					<form action="CommandController"  method="post">
-						<input type="hidden" name="game" value="${offer.id}" />	
-					    <input type="submit" name="action" value="VERIFY"/>
-						<input type="submit" name="action" value="REJECT"/>
-					</form>
-					
+						<form action="CommandController"  method="post">
+							<input type="hidden" name="game" value="${offer.id}" />	
+						    <input type="submit" name="action" value="VERIFY"/>
+							<input type="submit" name="action" value="REJECT"/>
+						</form>					
 					</div>
 				</c:forEach>
 			</div>
@@ -77,12 +71,11 @@
 				<div class="panel-header">Battle active list:</div>
 				<c:forEach items="${listActiveGames}" var="game">
 					<div class="player-item">${game.id} 
-					<form action="CommandController"  method="post">
-<%--	<input type="hidden" name="userId" value="${current_user.id}" />	 --%>
-						<input type="hidden" name="game" value="${game.id}" />	
-					    <input type="submit" name="action" value="PLAY"/>		
-					    <input type="submit" name="action" value="SURRENDER"/>							    				
-					</form>					
+						<form action="CommandController"  method="post">
+							<input type="hidden" name="game" value="${game.id}" />	
+						    <input type="submit" name="action" value="PLAY"/>		
+						    <input type="submit" name="action" value="SURRENDER"/>							    				
+						</form>					
 					</div> 
 				</c:forEach>
 			</div>

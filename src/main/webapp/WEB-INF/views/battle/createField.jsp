@@ -19,50 +19,39 @@
 
 <m:menu-top/>
 <button type="button" onclick="inactivateCheckboxes();">inactivateCheckboxes!</button>
-
 <button type="button" onclick="activateCheckboxes();">activateCheckboxes!</button>
-
 <button type="button" onclick="fillFieldRandom(10);">random set the ships !</button>
 
 
-	<h1>Create field</h1>
-
-table>(tr>td*10)*10
-
-table>(tr>(td>input[type="checkbox" name="$""])*10)*10
-
-table>(tr>(td>input[type="checkbox" name="item-$"])*10)*10
-
+<h1>Create field</h1>
 
 <form action="CommandController" method="post">
 	<table>
-		<thead>
+	<thead>
 		<th></th>
 		<c:forEach begin="1" end="10" varStatus="colH">
 			<th>${colH.index}</th>
 		</c:forEach>
-		</thead>
-		<tbody>
-				<c:forEach begin="1" end="10" varStatus="row">
-				  	<tr>
-				  		<c:forEach begin="1" end="10" varStatus="column">
-				  			<c:if test="${column.index eq 1}">
-								<td>&#${row.index+96};</td>
-							</c:if>
-							<td>
-				<input type="checkbox" name="fill"  class="checkbox field-position" value="${row.index*10 + column.index}" id="item-${row.index}-${column.index}" />
-<%-- 				${row.index*10 + column.index} --%>
-				<label for="item-${row.index}-${column.index}" />
-				
-	<%-- 			<td><input type="checkbox" name="item-${row.index}-${column.index}" />item-${row.index}-${column.index} </td> --%>			
+	</thead>
+	<tbody>
+		<c:forEach begin="1" end="10" varStatus="row">
+		 <tr>
+			<c:forEach begin="1" end="10" varStatus="column">
+				<c:if test="${column.index eq 1}">
+					<td>&#${row.index+96};</td>
+				</c:if>
+				<td>
+					<input type="checkbox" name="fill"  class="checkbox field-position" value="${row.index*10 + column.index}" id="item-${row.index}-${column.index}" />
+					<label for="item-${row.index}-${column.index}" />			
 				</td>
 			</c:forEach>
 		</tr>
-	</c:forEach>
+		</c:forEach>
+	</tbody>
 	</table>					
 	<input type="hidden" name="action" value="CREATE_FIELD"/>
 	<input type="hidden" name="userId" value="${current_user.id}"/>
-	<input type="hidden" name="game" value="${param.game}"/>${param.game}	
+	<input type="hidden" name="game" value="${param.game}"/>	
 	<input type="submit" value="CREATE_FIELD"/>
 </form>
 			
