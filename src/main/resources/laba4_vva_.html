@@ -1,0 +1,352 @@
+<script>
+    var d = document;
+
+    var name;
+    var data;
+    var srok;
+
+    function addRow() {
+        // Считываем значения с формы
+        name = d.getElementById('name').value;
+        data = d.getElementById('data').value;
+        srok = d.getElementById('srok').value;
+
+        // Находим нужную таблицу
+        var tbody = d.getElementById('tab1').getElementsByTagName('TBODY')[0];
+
+        // Создаем строку таблицы и добавляем ее
+        var row = d.createElement("TR");
+        tbody.appendChild(row);
+
+        // Создаем ячейки в вышесозданной строке
+        // и добавляем тх
+        var td1 = d.createElement("TD");
+        var td2 = d.createElement("TD");
+        var td3 = d.createElement("TD");
+        var td4 = d.createElement("TD");
+        var td5 = d.createElement("TD");
+
+        row.appendChild(td1); // добавить ячейки в строку табл.
+        row.appendChild(td2);
+        row.appendChild(td3);
+        row.appendChild(td4);
+        row.appendChild(td5);
+
+        // Наполняем ячейки
+        td1.innerHTML = name;
+        td2.innerHTML = data;
+        td3.innerHTML = srok;
+
+        var d_list = data.split(".");
+        if (d_list.length != 3) {
+            alert("Неверный формат даты")
+            return;
+        }
+        var dt1 = new Date(d_list[2], d_list[1] - 1, d_list[0]); // время начала отпуска
+        dt1.setMonth(dt1.getMonth() + 11);
+        td4.innerHTML = formatDate(dt1);
+
+        dt1.setDate(dt1.getDate() + Number(srok));
+        td5.innerHTML = '---'+formatDate(dt1);
+    }
+
+    function addRow11() {
+        var data11 = d.getElementById('data11').value;
+        data = d.getElementById('data').value;
+
+        // Находим нужную таблицу
+        var tbody = d.getElementById('tab11').getElementsByTagName('TBODY')[0];
+
+        // Создаем строку таблицы и добавляем ее
+        var row = d.createElement("TR");
+        tbody.appendChild(row);
+
+        // Создаем ячейки в вышесозданной строке
+        // и добавляем тх
+        var td1 = d.createElement("TD");
+        var td2 = d.createElement("TD");
+        var td3 = d.createElement("TD");
+        var td4 = d.createElement("TD");
+        var td5 = d.createElement("TD");
+        var td6 = d.createElement("TD");
+        
+        row.appendChild(td1); // добавить ячейки в строку табл.
+        row.appendChild(td2);
+        row.appendChild(td3);
+        row.appendChild(td4);
+        row.appendChild(td5);
+        row.appendChild(td6);
+
+        // Наполняем ячейки
+        td1.innerHTML = name;
+        td2.innerHTML = data;
+        td3.innerHTML = srok;
+
+        var d_list = data.split(".");
+        if (d_list.length != 3) {
+            alert("Неверный формат даты")
+            return;
+        }
+        var d_list11 = data11.split(".");
+        if (d_list11.length != 3) {
+            alert("Неверный формат даты")
+            return;
+        }
+        var dt11 = new Date(d_list11[2], d_list11[1] - 1, d_list11[0]); // время начала отпуска
+        var dt1 = new Date(d_list[2], d_list[1] - 1, d_list[0]); // время начала отпуска
+        dt1.setMonth(dt1.getMonth() + 11);
+        td4.innerHTML = formatDate(dt1);
+
+        dt11.setDate(dt11.getDate());
+        td5.innerHTML = ''+formatDate(dt11);
+
+        dt1.setDate(dt1.getDate() + Number(srok));
+        td6.innerHTML = '---'+formatDate(dt1);
+
+    }
+
+
+    function getWeekDay(date) {
+        var days = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+        return days[date.getMonth()];
+    }
+
+    function get_list() {
+        var rows = d.getElementById('tab1').tBodies[0].rows;
+        var ob = d.getElementById('dey_sel');
+        var rezult = "";
+        for (i = 0; i < rows.length; i++) {
+            var d_list = rows[i].cells[1].innerText.split("."); // дату разбили на день месяц год	
+            var dt = new Date(d_list[2], d_list[1] - 1 + 11, d_list[0] * 1);
+            if (ob.value == getWeekDay(dt))
+                rezult += rows[i].cells[0].innerText + "  -  " + rows[i].cells[1].innerText + " ;<br>";
+        }
+        if (rezult == "")
+            rezult = "Ничего не найдено";
+
+        d.getElementById('dey_sel_rez').innerHTML = rezult;
+
+        return true;
+    }
+</script>
+
+<H1>Лабораторная 4</H1> <br> <br>
+
+<H2>информация о сотрудниках</H2>
+
+<form action="" id="add_persons" method="post" onsubmit="addRow();return false;" onsubmit="addRowAndOtp();return false;">
+    <fieldset>
+        <legend>Добавить сотрудника</legend>
+        <ul>
+            <li>
+                <label for="name">Фамилия Имя Отчество</label>
+                <input type="text" name="name" id="name" value="" size="12" required="" tabindex="1" />
+            </li>
+            <br>
+            <li>
+                <label for="posada">Дата заклюения контракта</label>
+                <input type="text" name="data" id="data" value="" required="" size="12" tabindex="2" />
+            </li>
+            <br>
+            <li>
+                <label for="subm">Продолжительность отпуска</label>
+                <select type="number" name="srok" id="srok" tabindex="3">
+        <option>12</option>
+        <option>24</option>
+        <option>30</option>
+        <option>48</option>
+        <option>60</option> 
+    </select> дней
+                <!--<input type="number" name="srok" id="srok" value="" required="" size="12" tabindex="3" />-->
+            </li>
+        </ul>
+        <br>
+        <input type="submit" value="Добавить" tabindex="4" />
+        <br> день недели, в который закончится контракт -
+        <div id="w_dey"></div>
+
+    </fieldset>
+</form>
+<br>
+
+<script>
+    function formatDate(date) {
+
+        var dd = date.getDate();
+        if (dd < 31) dd = '0' + dd;
+
+        var mm = date.getMonth() + 1;
+        if (mm < 10) mm = '0' + mm;
+
+        var yy = date.getFullYear();
+
+        return dd + '.' + mm + '.' + yy;
+    }
+    d.getElementById('data').value = formatDate(new Date());
+</script>
+
+<H2>Cписок сотрудников</H2>
+
+<table id="tab1" border="1">
+    <thead>
+        <tr>
+            <th>Фамилия Имя Отчество</th>
+            <th>Дата заклюения контракта</th>
+            <th>Продолжительность отпуска</th>
+            <th>Начало отпуска</th>
+            <th>Конец отпуска</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+<br><br> Начало отпуска приходятся на данный месяц
+<select id="dey_sel" onchange="get_list()">
+    <option value="-1"></option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+    <option value="10">10</option>
+    <option value="11">11</option>
+    <option value="12">12</option>
+</select>
+<br><br>
+<div id="dey_sel_rez"></div>
+<br>
+<br>
+
+
+<script>
+    function get_listOnVacation() {
+        
+        var dataString = d.getElementById('data11').value;
+        var d_list = dataString.split(".");
+        if (d_list.length != 3) {
+            alert("Неверный формат даты")
+            return;
+        }
+        var enteredDate = new Date(d_list[2], d_list[1] - 1, d_list[0]); // время начала отпуска
+       // alert(enteredDate);
+    
+
+
+
+
+        var rows = d.getElementById('tab1').tBodies[0].rows;
+       
+           var rezult = "<table border='1'>";
+
+            for (i = 0; i < rows.length; i++) {
+                var d_list = rows[i].cells[1].innerText.split("."); // дату разбили на день месяц год	               
+                var ds = new Date(d_list[2], d_list[1] - 1 + 11, d_list[0] * 1);
+                var de = new Date(d_list[2], d_list[1] - 1 + 11, d_list[0] * 1 + srok[i] );
+              //  alert(ds + "\n"+enteredDate + "\n"+de + "\n")
+
+                if(dateComporisonDate(ds.getDate(),enteredDate,ds.getDate() + Number(srok))){
+                rezult += "<tr><td>"+rows[i].cells[0].innerText 
+                        +"</td><td>"+ rows[i].cells[1].innerText 
+                        +"</td><td>"+ rows[i].cells[2].innerText 
+                        +"</td><td>"+ formatDate(ds) 
+                        +"</td><td>"+ formatDate(enteredDate)
+                        +"</td><td>"+ formatDate(ds) +"</td><td>"+ formatDate(de) +" ;</td></tr>";
+                 
+               };
+               /*  if (ds<enteredDate<de)
+                    rezult += "<tr><td>"+rows[i].cells[0].innerText +"</td><td>"+ rows[i].cells[1].innerText +"</td><td>"+ rows[i].cells[2].innerText +"</td><td>"+ ds +"</td><td>"+ de +" ;</td></tr>";
+                 */ 
+            }
+            rezult += "</table>";
+            if (rezult == "")
+                rezult = "Ничего не найдено";
+    
+            d.getElementById('dey_sel_vacation').innerHTML = rezult;
+    
+            return true;
+      /*   }
+
+        d.getElementById('dey_sel_vacation').innerHTML = rezult;
+        var dt1 = new Date(d_list[2], d_list[1] - 1, d_list[0]); // время начала отпуска
+        dt1.setMonth(dt1.getMonth() + 11);
+        td4.innerHTML = dt1;
+
+        dt1.setDate(dt1.getDate() + Number(srok));
+        td5.innerHTML = '---'+dt1;
+        return true; */
+    }
+    function dateComporisonDate(firD,curD,secD){     
+        alert("777");  
+      /*  var fir = d.getElementById("data1").value.split('.');
+        var cur = d.getElementById("data").value.split('.');
+        var sec = d.getElementById("data2").value.split('.');        
+                
+        var firD=new Date(fir[2],fir[1]-1,fir[0]);
+        alert(firD+"\n"+fir+"\n")
+        var curD=new Date(cur[2],cur[1]-1,cur[0]);
+        alert(curD+"\n"+cur+"\n")
+        var secD=new Date(sec[2],sec[1]-1,sec[0]);     
+        alert(secD+"\n"+sec+"\n")*/
+        
+        alert(firD+"\n"+curD+"\n"+secD+"\n")
+        if (firD<curD<secD){
+            alert("ДА");
+            return true;
+        }
+        else{
+            alert("НЕТ");
+            return false;
+        }
+    }
+
+    function dateComporison(){     
+        alert("777");  
+        var fir = d.getElementById("data1").value.split('.');
+        var cur = d.getElementById("data").value.split('.');
+        var sec = d.getElementById("data2").value.split('.');        
+                
+        var firD=new Date(fir[2],fir[1]-1,fir[0]);
+        alert(firD+"\n"+fir+"\n")
+        var curD=new Date(cur[2],cur[1]-1,cur[0]);
+        alert(curD+"\n"+cur+"\n")
+        var secD=new Date(sec[2],sec[1]-1,sec[0]);     
+        alert(secD+"\n"+sec+"\n")
+        
+        alert(firD+"\n"+curD+"\n"+secD+"\n")
+        if (firD<curD<secD){
+            alert("ДА");
+        }
+        else{
+            alert("НЕТ");
+        }
+    }
+</script>
+
+<label for="posada">Дата заклюения контракта</label>
+<input type="text" name="data11" id="data11" value="01.02.2018" required="" size="12" tabindex="2" />
+<!-- <input type="text" name="data1" id="data1" value="01.12.2017" required="" size="12" tabindex="2" />
+<input type="text" name="data2" id="data2" value="01.12.2018" required="" size="12" tabindex="2" /> -->
+<button type="button" onclick="addRow11();">поиск11</button>
+<button type="button" onclick="get_listOnVacation();">поиск</button>
+<div id="dey_sel_vacation"></div>
+
+
+<table id="tab11" border="1">
+    <thead>
+        <tr>
+            <th>Фамилия Имя Отчество</th>
+            <th>Дата заклюения контракта</th>
+            <th>Продолжительность отпуска</th>
+            <th>Начало отпуска</th>
+            <th>---</th>
+            <th>Конец отпуска</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+<br>
