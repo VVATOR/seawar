@@ -1,59 +1,58 @@
 function statusGame() {
+
 	var gameId = document.getElementById("gameId").value;
-	var enemyId = document.getElementById("enemyId").value;
+	var userId = document.getElementById("current_user").value;
+	// var enemyId = document.getElementById("enemyId").value;
 	var timerId = setInterval(function() {
 		const
 		xhr = new XMLHttpRequest();
 		xhr.open('GET',
-		// 'CheckFillFieldsOfEnemyController?action=CHECKING_FILL_FIELDS_ENEMY&gameId='+gameId+'&enemyId='+enemyId
-		'CheckFillFieldsOfEnemyController?gameId=' + gameId + '&enemyId='
-				+ enemyId + '');
+		'CheckGameStatusController?gameId=' + gameId + '&userId=' + userId);
 		xhr.send();
 		var listGame = document.getElementById("content");
 		xhr.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {
-
-				switch (xhr.responseText.trim() == "YES") {
-					case "YES":
-						listGame.innerHTML = "YES" + listGame.innerHTML;
-						//window.location = "BattleController?game=" + gameId;
-						window.location = "CommandController?action=PLAY&game=" + gameId;
-						
+				// alert(xhr.responseText.trim());
+				switch (xhr.responseText.trim()) {
+				case "YES":
+					//listGame.innerHTML = "YES" + listGame.innerHTML;					
+					unlockBattleFieldAndWait();
 					break;
-					case "NO":
-						listGame.innerHTML = "NO" + listGame.innerHTML;
+				case "NO":
+					//listGame.innerHTML = "NO" + listGame.innerHTML;
+					lockBattleFieldAndWait();
+					break;
+				case "END":
+					var lock = document.getElementById("lockBlock");
+					var text = lock.getElementsByTagName("h1")[0];
+					lockBattleFieldAndWait();
+					text.innerHTML = "END";
 					break;
 
-					case "END_GAME":
-					
+				default:
+					lockBattleFieldAndWait();
 					break;
-
-					default:
-						break;
 				}
 
-				
 			} else {
 				// listGame.style.color = "red";
 				// listGame.innerHTML = "NO" + listGame.innerHTML;
 			}
 		}
-	}, 1000);
+	}, 200);
 }
 
-function lockBattleFieldAndWait(){
+function lockBattleFieldAndWait() {
 	var lock = document.getElementById("lockBlock");
-	console.log("lock");
+	console.log("lockBlock");
 	lockBlock.style.display = 'block';
 }
 
-function unlockBattleFieldAndWait(){
+function unlockBattleFieldAndWait() {
 	var lock = document.getElementById("lockBlock");
-	console.log("lock");
+	console.log("lockBlock");
 	lockBlock.style.display = 'none';
 }
-
-
 
 function fire(point) {
 	const
@@ -66,22 +65,22 @@ function fire(point) {
 	xhr.send();
 	xhr.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
-			var result =xhr.responseText;
-			console.log("xhr.responseText : "+result);
+			var result = xhr.responseText;
+			console.log("xhr.responseText : " + result);
 			switch (result.trim()) {
 			case "KILLED":
 				point.className += " " + xhr.responseText;
 				point.disabled = true;
 				console.log("kill");
-			break;
+				break;
 			case "EMPTY":
 				point.className += " " + xhr.responseText;
 				lockBattleFieldAndWait();
 				console.log("empty");
-			break;
+				break;
 			default:
 				console.log("default");
-				document.getElementById("panel_enemy").innerHTML = xhr.responseText ;
+				document.getElementById("panel_enemy").innerHTML = xhr.responseText;
 				break;
 			}
 		} else {
@@ -94,15 +93,12 @@ function addListener() {
 			.querySelectorAll("input[type=checkbox].field-position");
 	checkbox.forEach(function(element) {
 		element.addEventListener('change', function() {
-			console.log("aaaaaaaasssssssss");
 			if (this.checked) {
 				fire(this);
 			}
 		});
 	});
 }
-
-
 
 function statusEnymyFieldFill() {
 	var gameId = document.getElementById("gameId").value;
@@ -119,12 +115,13 @@ function statusEnymyFieldFill() {
 		xhr.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {
 				if (xhr.responseText == "YES") {
-					listGame.innerHTML = "YES" + listGame.innerHTML;
-					//window.location = "BattleController?game=" + gameId;
-					window.location = "CommandController?action=PLAY&game=" + gameId;
-					
+					//listGame.innerHTML = "YES" + listGame.innerHTML;
+					// window.location = "BattleController?game=" + gameId;
+					window.location = "CommandController?action=PLAY&game="
+							+ gameId;
+
 				} else {
-					listGame.innerHTML = "NO" + listGame.innerHTML;
+					//listGame.innerHTML = "NO" + listGame.innerHTML;
 				}
 			} else {
 				// listGame.style.color = "red";
@@ -133,8 +130,6 @@ function statusEnymyFieldFill() {
 		}
 	}, 5000);
 }
-
-
 
 function fillFieldRandom(countRandomPosition) {
 	clearAll();
@@ -170,7 +165,7 @@ function showNewOffers() {
 		xhr.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {
 				listGame.style.color = "green";
-				listGame.innerHTML = "1" + listGame.innerHTML;
+				//listGame.innerHTML = "1" + listGame.innerHTML;
 			} else {
 				listGame.style.color = "red";
 			}
@@ -178,24 +173,16 @@ function showNewOffers() {
 	}, 3000);
 }
 
-/*function onLoadWaitEnemy() {
-
-	var timerId = setInterval(function() {
-		const
-		xhr = new XMLHttpRequest();
-		xhr.open('POST', 'CommandController');
-		xhr.send();
-		var listGame = document.getElementById("list-players");
-		xhr.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				listGame.style.color = "green";
-				listGame.innerHTML = "1" + listGame.innerHTML;
-			} else {
-				listGame.style.color = "red";
-			}
-		}
-	}, 3000);
-}*/
+/*
+ * function onLoadWaitEnemy() {
+ * 
+ * var timerId = setInterval(function() { const xhr = new XMLHttpRequest();
+ * xhr.open('POST', 'CommandController'); xhr.send(); var listGame =
+ * document.getElementById("list-players"); xhr.onreadystatechange = function() {
+ * if (this.readyState == 4 && this.status == 200) { listGame.style.color =
+ * "green"; listGame.innerHTML = "1" + listGame.innerHTML; } else {
+ * listGame.style.color = "red"; } } }, 3000); }
+ */
 
 function activateCheckboxes() {
 	var listGame = document

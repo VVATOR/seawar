@@ -18,8 +18,6 @@
 
 	<h1>Dashboard</h1> 	
 
-	<button type="button" onclick="showNewOffers();">Click Me!</button>
-
 	<div class="panel">
 		<div id="list-players">
 			<div class="panel">
@@ -38,14 +36,14 @@
 		
 		<div class="flow" />
 
-		<div id="list-player-games-history"> 
-			<div class="panel">
-				<div class="panel-header">Your Games history list:</div>
-				<c:forEach items="${listGamesHistory}" var="game">
-					<div class="player-item">${game}</div>
-				</c:forEach>
-			</div>
-		</div>
+<!-- 		<div id="list-player-games-history">  -->
+<!-- 			<div class="panel"> -->
+<!-- 				<div class="panel-header">Your Games history list:</div> -->
+<%-- 				<c:forEach items="${listGamesHistory}" var="game"> --%>
+<%-- 					<div class="player-item">${game}</div> --%>
+<%-- 				</c:forEach> --%>
+<!-- 			</div> -->
+<!-- 		</div> -->
 		
 		<div class="flow" />
 		
@@ -53,7 +51,7 @@
 			<div class="panel">
 				<div class="panel-header">Battle offers list:</div>
 				<c:forEach items="${listBattleOffirs}" var="offer">
-					<div class="player-item">${offer.id} 
+					<div class="player-item">${offer.id} # ${offer.dateTime}
 						<form action="CommandController"  method="post">
 							<input type="hidden" name="game" value="${offer.id}" />	
 						    <input type="submit" name="action" value="VERIFY"/>
@@ -70,7 +68,7 @@
 			<div class="panel">
 				<div class="panel-header">Battle active list:</div>
 				<c:forEach items="${listActiveGames}" var="game">
-					<div class="player-item">${game.id} 
+					<div class="player-item">${game.id} # ${game.dateTime} 
 						<form action="CommandController"  method="post">
 							<input type="hidden" name="game" value="${game.id}" />	
 						    <input type="submit" name="action" value="PLAY"/>		

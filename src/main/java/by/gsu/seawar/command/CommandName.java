@@ -1,7 +1,7 @@
 package by.gsu.seawar.command;
 
 import by.gsu.seawar.Dispatcher;
-import by.gsu.seawar.command.impl.CheckFillFieldsOfEnemyCommand;
+
 import by.gsu.seawar.command.impl.CreateFieldCommand;
 import by.gsu.seawar.command.impl.CreatePlayCommand;
 import by.gsu.seawar.command.impl.CreateWaitCommand;
@@ -60,7 +60,8 @@ public enum CommandName {
     },
     CHECKING_FILL_FIELDS_ENEMY {
         public ICommand getCommand(Dispatcher dispatcher) {
-            return new CheckFillFieldsOfEnemyCommand(dispatcher);
+            return null;
+           // return new CheckFillFieldsOfEnemyCommand(dispatcher);
         }
     },
     LOGOUT {

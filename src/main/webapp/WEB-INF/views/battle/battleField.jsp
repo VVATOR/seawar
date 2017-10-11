@@ -11,7 +11,7 @@
 	<link rel="stylesheet" type="text/css" href="static/styles/style.css" />
 	<script src="static/field_random.js"></script>
 <style>
-div#lock {
+div#lockBlock {
 display:block;
 position:absolute;
 z-index:1000;
@@ -27,13 +27,18 @@ body, html {
     width: 100%;
     height: 100%;
 }
-#lockBlock{
+div#lockBlock{
 	display:none;
+}
+div#lockBlock h1{
+display:block;
+	background: red;
+	color white;
 }
 </style>
 </head>
-<body onload="addListener()">
- 
+<body onload="addListener(); statusGame();">
+
 <form action="CommandController" method="post">
 	<input type="submit" name="action" value="SURRENDER" class="btn"/>	
 	<input type="hidden" name="game" value="${param.game}" />	
@@ -52,20 +57,24 @@ body, html {
 
 <!-- <button type="button" onclick="inactivateCheckboxes();">inactivateCheckboxes!</button> -->
 <!-- <button type="button" onclick="activateCheckboxes();">activateCheckboxes!</button> -->
-<button type="button" onclick="listener();">listener!</button>
+<!-- <button type="button" onclick="listener();">listener!</button> -->
 <h1>BATTLE field</h1>
-<div id="lockBlock">НЕ ТВОЙ ХОД</div>
+
+<div id="content"></div>
+<div id="lockBlock"><h1>НЕ ТВОЙ ХОД</h1></div>
 	
 <input type="hidden" id="gameId" value="${param.game}"/>
 <input type="hidden" id="current_user" value="${current_user.id}"/>
 
-Enemy
+<h2>game id: ${param.game}</h2>
+
+
 <table>
 	<thead>
 		<tr>
 			<th>ENEMY (${enemy.login})</th>
 			<th width="100px"></th>
-			<th>YOUR</th>
+			<th>YOUR (${current_user.login})</th>
 		</tr>
 	</thead>
 	<tbody>

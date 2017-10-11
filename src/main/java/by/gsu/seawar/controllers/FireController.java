@@ -54,6 +54,7 @@ public class FireController extends HttpServlet {
 
 			try {
 				status = DBAccessor.fire(gameId, userId, point);
+				
 				System.out.println("===================================");
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -62,14 +63,6 @@ public class FireController extends HttpServlet {
 
 			}
 			
-			
-			
-		 //	User userPlay = (User) request.getSession().getAttribute("current_user");
-			
-	 	//	List<Point> currentUserListPositions = DBAccessor.getListPositions(gameId, userPlay.getId());
-
-			// DBAccessor.setWin(gameId, userPlay.getId());
-
 			System.out.println("x:" + x + "; y:" + y + " -> " + status.toString());
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
@@ -77,40 +70,6 @@ public class FireController extends HttpServlet {
 		}
 		out.println(status.toString());
 
-	/*	
-		try {
-			User userPlay = (User) request.getSession().getAttribute("current_user");
-			User enemy = DBAccessor.getUserById(DBAccessor.getEnemyId(gameId, userId));
-			
-			List<Point> listUserPosition = DBAccessor.getListPositions(gameId, userId);
-
-			try {
-				List<Point> currentUserListPositions = DBAccessor.getListPositions(gameId, userPlay.getId());
-
-				System.out.println("*********" + currentUserListPositions);
-
-				request.setAttribute("currentUserListPositions", currentUserListPositions);
-				// request.setAttribute("enemy",
-				// DBAccessor.getEnemyUserByGame(g,userPlay.getId()));
-
-			} catch (SQLException e) {
-				e.printStackTrace();
-				System.out.println("ERROR CREATE_FIELD_BY_USER");
-			}
-
-			List<Point> listEnemyPosition = DBAccessor.getListPositions(gameId, enemy.getId());
-			if (listEnemyPosition.isEmpty()) {
-				request.setAttribute("enemy", enemy);
-
-			} else {
-				request.setAttribute("enemyUserListPositions", listEnemyPosition);
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		request.getRequestDispatcher("/WEB-INF/views/battle/battleField2.jsp").forward(request, response);
-		;*/
 	}
 
 }

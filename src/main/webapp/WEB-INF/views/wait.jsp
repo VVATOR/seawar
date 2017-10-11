@@ -24,7 +24,7 @@
 	<input type="hidden" name="game" value="${param.game}" />	
 </form>
 <form action="CommandController" method="post">
-	<input type="submit" name="action" value="DASHBOARD" class="btn"/>	
+	<input type="submit" value="DASHBOARD" class="btn"/>	
 	<input type="hidden" name="game" value="${param.game}" />	
 	<input type="hidden" name="action" value="TO_DASHBOARD" />
 </form>

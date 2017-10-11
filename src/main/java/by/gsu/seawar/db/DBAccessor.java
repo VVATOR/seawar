@@ -14,6 +14,7 @@ import by.gsu.seawar.constants.Constant;
 import by.gsu.seawar.constants.EnemyFieldStatus;
 import by.gsu.seawar.constants.FireStatus;
 import by.gsu.seawar.constants.GameStatus;
+import by.gsu.seawar.constants.PlayingStatus;
 
 public class DBAccessor {
     // private static Connection connection = DBConnection.getConnection();
@@ -178,11 +179,12 @@ public class DBAccessor {
 
     public static void createGame(int user1, int user2) throws SQLException {
         Connection connection = DBConnection.getConnection();
-        final String sql = "INSERT INTO sw_game (id_u1,id_u2,step) values (?,?,?)";
+        final String sql = "INSERT INTO sw_game (id_u1,id_u2,step,winner) values (?,?,?,?)";
         PreparedStatement ps = (PreparedStatement) connection.prepareStatement(sql);
         ps.setInt(1, user1);
         ps.setInt(2, user2);
         ps.setInt(3, user1);
+        ps.setInt(4, user1);
         ps.execute();
     }
 
@@ -286,9 +288,105 @@ public class DBAccessor {
                 ps1.setString(4, FireStatus.EMPTY.toString());
                 ps1.executeUpdate();
             }
+            
+            final String sqlUpdate1 = "UPDATE sw_game "
+                    + " SET "
+                    + " winner = ?"
+                    + " WHERE id_g=?";
+            PreparedStatement ps11 = (PreparedStatement) connection.prepareStatement(sqlUpdate1);
+            ps11.setInt(1, DBAccessor.getEnemyId(gameId, userId));
+            ps11.setInt(2, gameId);
+            ps11.executeUpdate();
+            
+            if(DBAccessor.getListPositions(gameId, userId).size()>0){
+                final String sqlUpdate11 = "UPDATE sw_game "
+                        + " SET "
+                        + " winner = ?, "
+                        + " status='END'"
+                        + " WHERE id_g=? ";
+                PreparedStatement ps111 = (PreparedStatement) connection.prepareStatement(sqlUpdate11);
+                ps111.setInt(1, DBAccessor.getEnemyId(gameId, userId));
+                ps111.setInt(2, gameId);
+                ps111.executeUpdate();
+                
+            }
+            
             return FireStatus.EMPTY;
 
         }
+        /*        
+        Connection connection = DBConnection.getConnection();
+      //  connection.setAutoCommit(false);
+
+
+        
+        int enemyId = DBAccessor.getEnemyId(gameId, userId);
+        final String sql = "SELECT * FROM sw_battlefield b INNER JOIN sw_ship_position p ON (b.id_bf = p.id_bf)"
+                + " WHERE id_g=? AND id_u=? AND x=? AND y=? AND p.field_status<>?;";
+        PreparedStatement ps = (PreparedStatement) connection.prepareStatement(sql);
+        ps.setInt(1, gameId);
+        ps.setInt(2, enemyId);
+        ps.setInt(3, point.getX());
+        ps.setInt(4, point.getY());
+        ps.setString(5, FireStatus.EMPTY.toString());
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            final String sqlUpdate = "UPDATE sw_ship_position "
+                    + " SET "
+                    + " field_status = ?"
+                    + " WHERE id_p=?";
+            PreparedStatement ps1 = (PreparedStatement) connection.prepareStatement(sqlUpdate);
+            ps1.setString(1, FireStatus.KILLED.toString());
+            ps1.setInt(2, rs.getInt("id_p"));
+            ps1.executeUpdate();
+            return FireStatus.KILLED;
+        } else {
+            final String sqlBF = "SELECT * FROM sw_battlefield b INNER JOIN sw_ship_position p ON (b.id_bf = p.id_bf)"
+                    + " WHERE id_g=? AND id_u=?";
+            PreparedStatement pss = (PreparedStatement) connection.prepareStatement(sqlBF);
+            pss.setInt(1, gameId);
+            pss.setInt(2, enemyId);
+            ResultSet r = pss.executeQuery();
+            if (r.next()) {
+                final String sqlInsert = "INSERT INTO sw_ship_position (id_bf,x,y,field_status) VALUES(?,?,?,?) ";
+                PreparedStatement ps1 = (PreparedStatement) connection.prepareStatement(sqlInsert);
+                ps1.setInt(1, r.getInt("id_bf"));
+                ps1.setInt(2, point.getX());
+                ps1.setInt(3, point.getY());
+                ps1.setString(4, FireStatus.EMPTY.toString());
+                ps1.executeUpdate();
+            }
+            
+           /* final String sqlUpdate = "UPDATE sw_ship_position "
+                    + " SET "
+                    + " field_status = ?"
+                    + " WHERE id_p=?";
+            PreparedStatement ps1 = (PreparedStatement) connection.prepareStatement(sqlUpdate);
+            ps1.setString(1, FireStatus.KILLED.toString());
+            ps1.setInt(2, rs.getInt("id_p"));
+            ps1.executeUpdate();
+           
+            
+            */
+            
+           /* final String sqlUpdate1 = "UPDATE sw_game "
+                    + " SET "
+                    + " winner = ?"
+                    + " WHERE id_g=?";
+            PreparedStatement ps11 = (PreparedStatement) connection.prepareStatement(sqlUpdate1);
+            ps11.setInt(1, DBAccessor.getEnemyId(gameId, userId));
+            ps11.setInt(2, gameId);
+            ps11.executeUpdate();
+            connection.commit();*/
+      
+            
+            
+         /*   
+            
+            
+            return FireStatus.EMPTY;
+        }*/
     }
 
     public static List<Point> getListPositions(int gameId, int userId) throws SQLException {
@@ -332,6 +430,36 @@ public class DBAccessor {
 
         return enemyId;
 
+    }
+
+    public static String getStatus(int gameId, int userId) throws SQLException {
+        Connection connection = DBConnection.getConnection();
+        final String sql = "SELECT * from sw_game WHERE id_g=?";
+        PreparedStatement ps = (PreparedStatement) connection.prepareStatement(sql);
+        ps.setInt(1, gameId);
+     //   ps.setInt(2, userId);
+     //   ps.setString(3, GameStatus.VERIFY.toString());
+        ResultSet rs = ps.executeQuery();
+
+        List<Game> games = new ArrayList<>();
+
+        Game game = new Game();
+        while (rs.next()) {
+            
+            game.setId(rs.getInt("id_g"));
+            game.setStatus(GameStatus.valueOf(rs.getString("status")));
+            game.setWinner(rs.getString("winner"));
+            game.setDateTime(rs.getDate("date_start"));
+            // game.setPlayers({new Gamer(), new Gamer()} );
+
+            games.add(game);
+            if(!game.getStatus().equals("END")){
+                return game.getWinner();
+            }
+        }
+        
+
+        return game.getStatus().toString();
     }
 
     /*

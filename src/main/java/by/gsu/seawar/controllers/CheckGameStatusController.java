@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import by.gsu.seawar.beans.Point;
 import by.gsu.seawar.constants.FireStatus;
+import by.gsu.seawar.constants.PlayingStatus;
 import by.gsu.seawar.db.DBAccessor;
 
 /**
@@ -33,35 +34,50 @@ public class CheckGameStatusController extends HttpServlet {
      * @see HttpServlet#service(HttpServletRequest request, HttpServletResponse response)
      */
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int pointParam = Integer.parseInt(request.getParameter("point"));
+
         int gameId = Integer.parseInt(request.getParameter("gameId"));
         int userId = Integer.parseInt(request.getParameter("userId"));
-        System.out.println("FIRE -> game:" + gameId + " user:" + userId + " point:" + pointParam);
 
-        int x = pointParam % 10;
-        int y = pointParam / 10;
-        Point point = new Point(x, y);
+        PrintWriter out = response.getWriter();
+        // DBAccessor.status()
+        // try {
+        // out = response.getWriter();
+        //
+        // try {
+        // status = DBAccessor.fire(gameId, userId, point);
+        // System.out.println("===================================");
+        // } catch (SQLException e) {
+        // // TODO Auto-generated catch block
+        // e.printStackTrace();
+        // System.out.println("eeeeeerrrroooorr");
+        // }
+        // System.out.println("x:" + x + "; y:" + y + " -> " + status.toString());
+        // } catch (IOException e1) {
+        // // TODO Auto-generated catch block
+        // e1.printStackTrace();
+        // }
 
-        FireStatus status = FireStatus.ERROR;
-        PrintWriter out = null;
+        String status = "";
         try {
-            out = response.getWriter();
-
-            try {
-                status = DBAccessor.fire(gameId, userId, point);
-                System.out.println("===================================");
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-                System.out.println("eeeeeerrrroooorr");
-
-            }
-            System.out.println("x:" + x + "; y:" + y + " -> " + status.toString());
-        } catch (IOException e1) {
+            status = DBAccessor.getStatus(gameId, userId);
+            
+            
+        } catch (SQLException e) {
             // TODO Auto-generated catch block
-            e1.printStackTrace();
+            e.printStackTrace();
         }
-        out.println(status.toString());
+        
+        
+        if (status.equals("END")){
+            out.println(status);
+        }else{
+            if(userId ==  Integer.parseInt(status)){
+                out.println("YES");
+            }else{
+                out.println("NO");
+            }
+        }
+        
     }
 
 }
