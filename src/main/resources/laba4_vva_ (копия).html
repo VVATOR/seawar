@@ -42,26 +42,23 @@
             alert("Неверный формат даты")
             return;
         }
-        var year = d_list[2];
-        var month = d_list[1] - 1;
-        var day = d_list[0];
-
-        var dt1 = new Date(year, month, day); // время начала отпуска
+        var dt1 = new Date(d_list[2], d_list[1] - 1, d_list[0]); // время начала отпуска
         dt1.setMonth(dt1.getMonth() + 11);
         td4.innerHTML = formatDate(dt1);
 
-        var dt2 = new Date(year, month, day); // время конец отпуска
-        dt2.setMonth(dt2.getMonth() + 11); // + Number(srok);
-        dt2.setDate(dt2.getDay() + Number(srok));
-        td5.innerHTML = formatDate(dt2);
+        dt1.setDate(dt1.getDate() + Number(srok));
+        td5.innerHTML = '---' + formatDate(dt1);
     }
 
     function addRow11() {
+        var data11 = d.getElementById('data11').value;
+        data = d.getElementById('data').value;
+
         // Находим нужную таблицу
-        /*      var tbody = d.getElementById('tab1').getElementsByTagName('TBODY')[0];
+        var tbody = d.getElementById('tab11').getElementsByTagName('TBODY')[0];
 
         // Создаем строку таблицы и добавляем ее
-             var row = d.createElement("TR");
+        var row = d.createElement("TR");
         tbody.appendChild(row);
 
         // Создаем ячейки в вышесозданной строке
@@ -81,56 +78,31 @@
         row.appendChild(td6);
 
         // Наполняем ячейки
-        td1.innerHTML = rows[];
+        td1.innerHTML = name;
         td2.innerHTML = data;
         td3.innerHTML = srok;
 
-*/
-
-        var rows = d.getElementById('tab1').tBodies[0].rows;
-        var rezult = "<table border='1'>";
-
-        var dataString = d.getElementById('data11').value;
-        var dateFilterPart = dataString.split(".");
-        for (i = 0; i < rows.length; i++) {
-            var datePart = rows[i].cells[1].innerText.split("."); // дату разбили на день месяц год	
-            var dt = new Date(dateFilterPart[2], dateFilterPart[1] - 1, dateFilterPart[0] * 1);
-
-            if (datePart.length != 3) {
-                alert("Неверный формат даты")
-                return;
-            }
-
-            var year = datePart[2];
-            var month = datePart[1] - 1;
-            var day = datePart[0];
-
-            var dt1 = new Date(year, month, day); // время начала отпуска
-            dt1.setMonth(dt1.getMonth() + 11);
-            //  td4.innerHTML = formatDate(dt1);
-
-            var dt2 = new Date(year, month, day); // время конец отпуска
-            dt2.setMonth(dt2.getMonth() + 11);
-            dt2.setDate(dt2.getDate() + Number(srok));
-            //  td5.innerHTML = formatDate(dt2);
-
-
-            if (dt1 < dt < dt2) {
-                //    rezult += rows[i].cells[0].innerText + "  -  " + rows[i].cells[1].innerText + " ;<br>";
-                rezult += "<tr><td>" + rows[i].cells[0].innerText +
-                    "</td><td>" + rows[i].cells[1].innerText +
-                    "</td><td>" + rows[i].cells[2].innerText +
-                    "</td><td>" + formatDate(dt1) +
-                    "</td><td>" + formatDate(dt) +
-                    "</td><td>" + formatDate(dt2) + "</td></tr>";
-
-            }
+        var d_list = data.split(".");
+        if (d_list.length != 3) {
+            alert("Неверный формат даты")
+            return;
         }
-        rezult += "</table>";
-        if (rezult == "")
-            rezult = "Ничего не найдено";
+        var d_list11 = data11.split(".");
+        if (d_list11.length != 3) {
+            alert("Неверный формат даты")
+            return;
+        }
+        var dt11 = new Date(d_list11[2], d_list11[1] - 1, d_list11[0]); // время начала отпуска
+        var dt1 = new Date(d_list[2], d_list[1] - 1, d_list[0]); // время начала отпуска
+        dt1.setMonth(dt1.getMonth() + 11);
+        td4.innerHTML = formatDate(dt1);
 
-        d.getElementById('dey_sel_vacation').innerHTML = rezult;
+        dt11.setDate(dt11.getDate());
+        td5.innerHTML = '' + formatDate(dt11);
+
+        dt1.setDate(dt1.getDate() + Number(srok));
+        td6.innerHTML = '---' + formatDate(dt1);
+
     }
 
 
@@ -226,34 +198,6 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>qq</td>
-            <td>11.10.2017</td>
-            <td>12</td>
-            <td>011.09.2018</td>
-            <td>026.10.2017</td>
-        </tr>
-        <tr>
-            <td>rr</td>
-            <td>11.11.2017</td>
-            <td>48</td>
-            <td>011.10.2018</td>
-            <td>04.01.2018</td>
-        </tr>
-        <tr>
-            <td>yy</td>
-            <td>11.12.2017</td>
-            <td>60</td>
-            <td>011.11.2018</td>
-            <td>010.02.2018</td>
-        </tr>
-        <tr>
-            <td>cc</td>
-            <td>06.05.2017</td>
-            <td>30</td>
-            <td>06.04.2018</td>
-            <td>016.06.2017</td>
-        </tr>
     </tbody>
 </table>
 <br><br> Начало отпуска приходятся на данный месяц
