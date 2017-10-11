@@ -14,7 +14,6 @@ import by.gsu.seawar.constants.Constant;
 import by.gsu.seawar.constants.EnemyFieldStatus;
 import by.gsu.seawar.constants.FireStatus;
 import by.gsu.seawar.constants.GameStatus;
-import by.gsu.seawar.engine.Game;
 
 public class DBAccessor {
     // private static Connection connection = DBConnection.getConnection();

@@ -1,8 +1,7 @@
-package by.gsu.seawar.engine;
+package by.gsu.seawar.beans;
 
 import java.sql.Date;
 
-import by.gsu.seawar.beans.Gamer;
 import by.gsu.seawar.constants.GameStatus;
 import by.gsu.seawar.engine.battle.BattleField;
 

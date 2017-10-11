@@ -3,19 +3,6 @@ body {
 	margin: 0px;
 }
 
-.menu-top {
-	padding: 5px;
-	display: block;
-	color: white;
-	min-height 50px;
-	background: orange;
-}
-
-.menu-top li {
-	list-style: none;
-	display: inline-block;
-	float: left;
-}
 
 .flow {
 	float: right;
@@ -44,3 +31,27 @@ body {
 	width: 250px;
 	border: 1px solid black;
 }
+
+
+.menu-top {
+	padding: 5px;
+	display: block;
+	color: white;
+	min-height 50px;
+	background: orange;
+}
+.menu-top form{
+	display: inline-block;
+}
+
+.menu-top ul{
+	display: inline-block;
+}
+.menu-top li {
+	list-style: none;
+	display: inline-block;
+	float: left;
+}
+
+
+

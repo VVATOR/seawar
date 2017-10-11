@@ -32,33 +32,8 @@ body, html {
 }
 </style>
 </head>
-<body onload="addListener()">
+<body>
  
-<form action="CommandController" method="post">
-	<input type="submit" name="action" value="SURRENDER" class="btn"/>	
-	<input type="hidden" name="game" value="${param.game}" />	
-</form>
-
-<m:menu-top/>
-<form action="CommandController" method="post">
-	<input type="submit" name="action" value="SURRENDER" class="btn"/>	
-	<input type="hidden" name="game" value="${param.game}" />	
-</form>
-<form action="CommandController" method="post">
-	<input type="submit" value="DASHBOARD" class="btn"/>	
-	<input type="hidden" name="game" value="${param.game}" />	
-	<input type="hidden" name="action" value="TO_DASHBOARD" />
-</form>
-
-<!-- <button type="button" onclick="inactivateCheckboxes();">inactivateCheckboxes!</button> -->
-<!-- <button type="button" onclick="activateCheckboxes();">activateCheckboxes!</button> -->
-<button type="button" onclick="listener();">listener!</button>
-<h1>BATTLE field</h1>
-<div id="lockBlock">НЕ ТВОЙ ХОД</div>
-	
-<input type="hidden" id="gameId" value="${param.game}"/>
-<input type="hidden" id="current_user" value="${current_user.id}"/>
-
 Enemy
 <table>
 	<thead>
@@ -154,11 +129,5 @@ Enemy
 </table>
 <hr />
 
-<!-- <div id="panel_enemy"> -->
-<%-- 	<jsp:include page="/WEB-INF/views/battle/battleField2.jsp" />	 --%>
-<!-- </div> -->
-<!-- <div id="panel_you"> -->
-<%-- 	<jsp:include page="/WEB-INF/views/battle/panel_my.jsp" />	 --%>
-<!-- </div> -->
 </body>
 </html>

@@ -15,14 +15,28 @@
 
 </head>
 <body onload="statusEnymyFieldFill()">
+
+
 	<m:menu-top/>
+	
+<form action="CommandController" method="post">
+	<input type="submit" name="action" value="SURRENDER" class="btn"/>	
+	<input type="hidden" name="game" value="${param.game}" />	
+</form>
+<form action="CommandController" method="post">
+	<input type="submit" name="action" value="DASHBOARD" class="btn"/>	
+	<input type="hidden" name="game" value="${param.game}" />	
+	<input type="hidden" name="action" value="TO_DASHBOARD" />
+</form>
+
+
 	<h1>wait of the enimy...</h1>
 
 	<input type="hidden" id="enemyId" value="${enemy.id}" />
 	<input type="hidden" id="gameId" value="${param.game}" />
 	<input type="hidden" id="current_user" value="${current_user.id}" />
 
-	You wait while ${enemy.login} set ship position
+	You wait while <b>${enemy.login}</b> set ship position
 
 	<div id="content">
 		<img src="./static/images/loader.gif" alt="wait of the enimy..." />

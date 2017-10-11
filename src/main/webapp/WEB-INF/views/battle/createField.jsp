@@ -18,9 +18,19 @@
 <body>
 
 <m:menu-top/>
-<button type="button" onclick="inactivateCheckboxes();">inactivateCheckboxes!</button>
-<button type="button" onclick="activateCheckboxes();">activateCheckboxes!</button>
-<button type="button" onclick="fillFieldRandom(10);">random set the ships !</button>
+<form action="CommandController" method="post">
+	<input type="submit" name="action" value="SURRENDER" class="btn"/>	
+	<input type="hidden" name="game" value="${param.game}"  class="btn"/>	
+</form>
+<form action="CommandController" method="post">
+	<input type="submit"  value="DASHBOARD" class="btn"/>	
+	<input type="hidden" name="game" value="${param.game}" />	
+	<input type="hidden" name="action" value="TO_DASHBOARD" />
+</form>
+
+<!-- <button type="button" onclick="inactivateCheckboxes();">inactivateCheckboxes!</button> -->
+<!-- <button type="button" onclick="activateCheckboxes();">activateCheckboxes!</button> -->
+<button type="button" onclick="fillFieldRandom(10);" class="btn">random set the ships !</button>
 
 
 <h1>Create field</h1>
@@ -52,7 +62,7 @@
 	<input type="hidden" name="action" value="CREATE_FIELD"/>
 	<input type="hidden" name="userId" value="${current_user.id}"/>
 	<input type="hidden" name="game" value="${param.game}"/>	
-	<input type="submit" value="CREATE_FIELD"/>
+	<input type="submit" value="CREATE_FIELD"  class="btn"/>
 </form>
 			
 

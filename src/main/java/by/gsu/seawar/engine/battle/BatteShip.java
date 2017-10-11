@@ -3,7 +3,6 @@ package by.gsu.seawar.engine.battle;
 import java.util.List;
 
 import by.gsu.seawar.beans.*;
-import by.gsu.seawar.engine.Game;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class BatteShip {
